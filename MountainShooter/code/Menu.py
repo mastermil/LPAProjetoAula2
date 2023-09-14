@@ -4,7 +4,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import WIN_WIDTH, WIN_HEIGTH
+from code.Const import WIN_WIDTH, WIN_HEIGHT
 
 
 class Menu:
