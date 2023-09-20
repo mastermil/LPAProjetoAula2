@@ -22,13 +22,13 @@ class Player(Entity):
         if pressed_key[PLAYER_KEY_UP[self.name]] and self.rect.top > 0:  # Quando seta pra cima faça
             self.rect.centery -= ENTITY_SPEED[self.name]
 
-        if pressed_key[PLAYER_KEY_DOWN[self.name]] and self.rect.bottom < WIN_HEIGHT:  # Quando seta pra baixo faça
+        if pressed_key[PLAYER_KEY_DOWN[self.name]] and self.rect.bottom < WIN_HEIGHT:  # Quando seta para baixo faça
             self.rect.centery += ENTITY_SPEED[self.name]
 
-        if pressed_key[PLAYER_KEY_LEFT[self.name]] and self.rect.left > 0:  # Quando seta pra frente faça
+        if pressed_key[PLAYER_KEY_LEFT[self.name]] and self.rect.left > 0:  # Quando seta para frente faça
             self.rect.centerx -= ENTITY_SPEED[self.name]
 
-        if pressed_key[PLAYER_KEY_RIGHT[self.name]] and self.rect.right < WIN_WIDTH:  # Quando seta pra traz faça
+        if pressed_key[PLAYER_KEY_RIGHT[self.name]] and self.rect.right < WIN_WIDTH:  # Quando seta para trás faça
             self.rect.centerx += ENTITY_SPEED[self.name]
 
     def shoot(self):
