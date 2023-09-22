@@ -10,7 +10,7 @@ class EntityMediator:
     @staticmethod
     def __verify_collision_window(ent: Entity):
         if isinstance(ent, Enemy):
-            if ent.rect.right < 0:
+            if ent.rect.right <= 0:
                 ent.health = 0
         if isinstance(ent, PlayerShot):
             if ent.rect.left >= WIN_WIDTH:

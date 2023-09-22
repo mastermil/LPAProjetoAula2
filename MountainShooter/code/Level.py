@@ -7,7 +7,7 @@ import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import MENU_OPTION, EVENT_ENEMY, C_WHITE, WIN_HEIGHT, C_GREEN, C_CYAN
+from code.Const import MENU_OPTION, EVENT_ENEMY, C_WHITE, WIN_HEIGHT, C_GREEN, C_CYAN, EVENT_TIMEOUT
 from code.Enemy import Enemy
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
@@ -21,11 +21,13 @@ class Level:
         self.name = name
         self.mode = menu_option  # opção do menu
         self.entity_list: list[Entity] = []
-        self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
+        self.entity_list.extend(EntityFactory.get_entity(self.name + 'Bg'))
         self.entity_list.append(EntityFactory.get_entity('Player1'))
         if menu_option in [MENU_OPTION[1], MENU_OPTION[2]]:
             self.entity_list.append(EntityFactory.get_entity('Player2'))
         pygame.time.set_timer(EVENT_ENEMY, 4000)
+        self.timeout = 20000
+        pygame.time.set_timer(EVENT_TIMEOUT, 100)  # 100 ms
 
     def run(self):
         pygame.mixer_music.load(f'./asset/{self.name}.mp3')
@@ -49,7 +51,8 @@ class Level:
                 if ent.name == 'Player2':
                     self.level_text(14, f'Player2 - Health: {ent.health}| Score: {ent.score}', C_CYAN, (10, 45))
 
-            # texto a ser printado na tela
+            # texto a ser desenhado na tela
+            self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000}s', C_WHITE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps() :.0f}', C_WHITE, (10, WIN_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, WIN_HEIGHT - 20))
             # Atualizar tela
@@ -66,8 +69,10 @@ class Level:
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(('Enemy1', 'Enemy2'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
-
-        pass
+                if event.type == EVENT_TIMEOUT:
+                    self.timeout -= 100
+                    if self.timeout == 0:
+                        return True
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
